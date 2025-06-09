@@ -1,3 +1,5 @@
+// lib/screens/trails_list_screen.dart
+
 import 'package:flutter/material.dart';
 import '../models/trail.dart';
 import '../services/trail_service.dart';
@@ -11,80 +13,70 @@ class TrailsListScreen extends StatefulWidget {
 }
 
 class _TrailsListScreenState extends State<TrailsListScreen> {
-  String? _filterDifficulty;
-  String _sortBy = 'length'; // or 'time'
+  String _sortBy = 'Length ↑';
+
+  static const _sortOptions = <String>[
+    'Length ↑',
+    'Length ↓',
+    'Time ↑',
+    'Time ↓',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // Stream with optional where/orderBy
-    final stream = TrailService().getTrailsFiltered(
-      difficulty: _filterDifficulty,
-      sortBy: _sortBy,
-    );
+    final stream = TrailService().getTrails();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('All Trails')),
-      body: Column(
-        children: [
-          // Filters row
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                // Difficulty filter (nullable)
-                Expanded(
-                  child: DropdownButtonFormField<String?>(
-                    value: _filterDifficulty,
-                    decoration: const InputDecoration(labelText: 'Difficulty'),
-                    items: <String?>[null, 'Easy', 'Moderate', 'Hard']
-                        .map((d) => DropdownMenuItem<String?>(
-                      value: d,
-                      child: Text(d ?? 'All'),
-                    ))
-                        .toList(),
-                    onChanged: (v) => setState(() => _filterDifficulty = v),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                // Sort control (non-nullable)
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: _sortBy,
-                    decoration: const InputDecoration(labelText: 'Sort by'),
-                    items: const [
-                      DropdownMenuItem(value: 'length', child: Text('Length')),
-                      DropdownMenuItem(value: 'time', child: Text('Time')),
-                    ],
-                    onChanged: (v) => setState(() => _sortBy = v!),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // List of trails
-          Expanded(
-            child: StreamBuilder<List<Trail>>(
-              stream: stream,
-              builder: (context, snap) {
-                if (snap.hasError) {
-                  return Center(child: Text('Error: ${snap.error}'));
-                }
-                if (!snap.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                final trails = snap.data!;
-                if (trails.isEmpty) {
-                  return const Center(child: Text('No trails found.'));
-                }
-                return ListView.builder(
-                  itemCount: trails.length,
-                  itemBuilder: (_, i) => TrailCard(trails[i]),
-                );
+      appBar: AppBar(
+        title: const Text('Available Trails'),
+        actions: [
+          DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: _sortBy,
+              items: _sortOptions
+                  .map((opt) => DropdownMenuItem(value: opt, child: Text(opt)))
+                  .toList(),
+              onChanged: (v) {
+                if (v != null) setState(() => _sortBy = v);
               },
+              icon: const Icon(Icons.sort, color: Colors.white),
+              dropdownColor: Colors.white,
             ),
           ),
         ],
+      ),
+      body: StreamBuilder<List<Trail>>(
+        stream: stream,
+        builder: (ctx, snap) {
+          if (snap.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final trails = snap.data ?? [];
+
+          // Apply client-side sort
+          switch (_sortBy) {
+            case 'Length ↑':
+              trails.sort((a, b) => a.length.compareTo(b.length));
+              break;
+            case 'Length ↓':
+              trails.sort((a, b) => b.length.compareTo(a.length));
+              break;
+            case 'Time ↑':
+              trails.sort((a, b) => a.time.compareTo(b.time));
+              break;
+            case 'Time ↓':
+              trails.sort((a, b) => b.time.compareTo(a.time));
+              break;
+          }
+
+          if (trails.isEmpty) {
+            return const Center(child: Text('No trails found.'));
+          }
+          return ListView.builder(
+            itemCount: trails.length,
+            itemBuilder: (ctx, i) => TrailCard(trails[i]),
+          );
+        },
       ),
     );
   }

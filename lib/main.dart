@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
           builder: (_, __) => const HomeScreen(),
         ),
 
-        // Authentication
+        // Sign in
         GoRoute(
           path: '/sign-in',
           builder: (_, __) => ui.SignInScreen(
@@ -79,12 +79,12 @@ class MyApp extends StatelessWidget {
           builder: (_, __) => const TrailsListScreen(),
         ),
 
-        // Trail detail
+        // Trail detail by ID
         GoRoute(
-          path: '/trailDetail',
+          path: '/trails/:id',
           builder: (ctx, state) {
-            final trail = state.extra as Trail;
-            return TrailDetailPage(trail: trail);
+            final trailId = state.pathParameters['id']!;
+            return TrailDetailPage(trailId: trailId);
           },
         ),
 
