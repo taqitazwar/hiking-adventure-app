@@ -5,6 +5,7 @@ import '../widgets/trail_card.dart';
 
 class TrailsListScreen extends StatefulWidget {
   const TrailsListScreen({super.key});
+
   @override
   State<TrailsListScreen> createState() => _TrailsListScreenState();
 }
@@ -16,11 +17,10 @@ class _TrailsListScreenState extends State<TrailsListScreen> {
   @override
   Widget build(BuildContext context) {
     // Stream with optional where/orderBy
-    final stream = TrailService()
-        .getTrailsFiltered(
-          difficulty: _filterDifficulty,
-          sortBy: _sortBy,
-        );
+    final stream = TrailService().getTrailsFiltered(
+      difficulty: _filterDifficulty,
+      sortBy: _sortBy,
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text('All Trails')),
@@ -31,39 +31,31 @@ class _TrailsListScreenState extends State<TrailsListScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                // Difficulty filter
+                // Difficulty filter (nullable)
                 Expanded(
-                  child: DropdownButtonFormField<String>(
+                  child: DropdownButtonFormField<String?>(
                     value: _filterDifficulty,
-                    hint: const Text('All Difficulties'),
-                    items: [
-                      'Easy',
-                      'Moderate',
-                      'Difficult',
-                    ].map((d) {
-                      return DropdownMenuItem(value: d, child: Text(d));
-                    }).toList()
-                      ..insert(
-                          0,
-                          const DropdownMenuItem(
-                              value: null, child: Text('All'))),
-                    onChanged: (v) =>
-                        setState(() => _filterDifficulty = v),
+                    decoration: const InputDecoration(labelText: 'Difficulty'),
+                    items: <String?>[null, 'Easy', 'Moderate', 'Hard']
+                        .map((d) => DropdownMenuItem<String?>(
+                      value: d,
+                      child: Text(d ?? 'All'),
+                    ))
+                        .toList(),
+                    onChanged: (v) => setState(() => _filterDifficulty = v),
                   ),
                 ),
                 const SizedBox(width: 16),
-                // Sort control
+                // Sort control (non-nullable)
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     value: _sortBy,
                     decoration: const InputDecoration(labelText: 'Sort by'),
                     items: const [
-                      DropdownMenuItem(
-                          value: 'length', child: Text('Length')),
+                      DropdownMenuItem(value: 'length', child: Text('Length')),
                       DropdownMenuItem(value: 'time', child: Text('Time')),
                     ],
-                    onChanged: (v) =>
-                        setState(() => _sortBy = v!),
+                    onChanged: (v) => setState(() => _sortBy = v!),
                   ),
                 ),
               ],
