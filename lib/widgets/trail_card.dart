@@ -1,3 +1,5 @@
+// lib/widgets/trail_card.dart
+
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:go_router/go_router.dart';
@@ -10,8 +12,7 @@ class TrailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageRef = FirebaseStorage.instance
-        .ref()
-        .child('trails/${trail.id}/main_photo.jpg');
+        .ref('trails/${trail.id}/main_photo.jpg');
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -20,14 +21,13 @@ class TrailCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          // Push detail page onto the stack, so back works
-          context.push('/trailDetail', extra: trail);
+          // 🔥 Push the new /trails/:id path, not /trailDetail
+          context.push('/trails/${trail.id}');
         },
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              // Trail image
               FutureBuilder<String>(
                 future: imageRef.getDownloadURL(),
                 builder: (ctx, snap) {
@@ -46,12 +46,12 @@ class TrailCard extends StatelessWidget {
                     width: 80,
                     height: 80,
                     color: Colors.grey[300],
-                    child: const Icon(Icons.image, size: 40, color: Colors.grey),
+                    child:
+                    const Icon(Icons.image, size: 40, color: Colors.grey),
                   );
                 },
               ),
               const SizedBox(width: 16),
-              // Trail info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
