@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "711383704726",
+    "project_id": "hikingapp-bd43d",
+    "storage_bucket": "hikingapp-bd43d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711383704726:android:474bd0cb7f700141084eb7",
+        "android_client_info": {
+          "package_name": "com.example.hiking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPnsn4Yh6fo2K2a28fdaaBLm4TMVbv5qk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
