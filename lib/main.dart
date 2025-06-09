@@ -1,3 +1,5 @@
+// lib/main.dart
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -8,9 +10,16 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart' as ui;
 import 'package:go_router/go_router.dart';
 
 import 'firebase_options.dart';
+
+// Screens
 import 'package:hiking_app/screens/trails_list_screen.dart';
+import 'package:hiking_app/screens/trail_detail_screen.dart';
 import 'package:hiking_app/screens/hike_logs_screen.dart';
 import 'package:hiking_app/screens/hike_log_form_screen.dart';
+import 'package:hiking_app/screens/hike_log_detail_screen.dart';
+
+// Models
+import 'package:hiking_app/models/trail.dart';
 import 'package:hiking_app/models/hike_log.dart';
 
 /// Notifies GoRouter when the auth state changes.
@@ -45,10 +54,13 @@ class MyApp extends StatelessWidget {
       initialLocation: '/',
       refreshListenable: GoRouterRefreshStream(auth.authStateChanges()),
       routes: [
+        // Home
         GoRoute(
           path: '/',
           builder: (_, __) => const HomeScreen(),
         ),
+
+        // Authentication
         GoRoute(
           path: '/sign-in',
           builder: (_, __) => ui.SignInScreen(
@@ -60,18 +72,44 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
+
+        // Trails list
         GoRoute(
           path: '/trails',
           builder: (_, __) => const TrailsListScreen(),
         ),
+
+        // Trail detail
+        GoRoute(
+          path: '/trailDetail',
+          builder: (ctx, state) {
+            final trail = state.extra as Trail;
+            return TrailDetailPage(trail: trail);
+          },
+        ),
+
+        // Hiking logs list
         GoRoute(
           path: '/logs',
           builder: (_, __) => const HikeLogsScreen(),
         ),
+
+        // New log form
         GoRoute(
           path: '/logs/new',
           builder: (_, __) => const HikeLogFormScreen(),
         ),
+
+        // View a single log
+        GoRoute(
+          path: '/logs/:id',
+          builder: (ctx, state) {
+            final log = state.extra as HikeLog;
+            return HikeLogDetailScreen(log: log);
+          },
+        ),
+
+        // Edit a log
         GoRoute(
           path: '/logs/:id/edit',
           builder: (ctx, state) {
