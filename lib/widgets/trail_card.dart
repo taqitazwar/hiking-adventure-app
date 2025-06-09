@@ -20,6 +20,7 @@ class TrailCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
+            // Trail image
             FutureBuilder<String>(
               future: imageRef.getDownloadURL(),
               builder: (ctx, snap) {
@@ -38,12 +39,12 @@ class TrailCard extends StatelessWidget {
                   width: 80,
                   height: 80,
                   color: Colors.grey[300],
-                  child: const Icon(Icons.image,
-                      size: 40, color: Colors.grey),
+                  child: const Icon(Icons.image, size: 40, color: Colors.grey),
                 );
               },
             ),
             const SizedBox(width: 16),
+            // Trail info
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,11 +52,14 @@ class TrailCard extends StatelessWidget {
                   Text(
                     trail.name,
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                   const SizedBox(height: 4),
+                  // Include trail.time before the length
                   Text(
-                    '${trail.location} · ${trail.difficulty} · ${trail.length.toStringAsFixed(1)} km',
+                    '${trail.location} · ${trail.difficulty} · ${trail.time} · ${trail.length.toStringAsFixed(1)} km',
                     style: TextStyle(color: Colors.grey[700]),
                   ),
                 ],
