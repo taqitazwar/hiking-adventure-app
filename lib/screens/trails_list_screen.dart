@@ -16,11 +16,14 @@ class _TrailsListScreenState extends State<TrailsListScreen> {
   String _sortBy = 'Length ↑';
 
   static const _sortOptions = <String>[
-    'Length ↑',
-    'Length ↓',
-    'Time ↑',
-    'Time ↓',
-  ];
+  'Length ↑',
+  'Length ↓',
+  'Time ↑',
+  'Time ↓',
+  'Difficulty ↑', // Add this
+  'Difficulty ↓', // And this
+];
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +70,14 @@ class _TrailsListScreenState extends State<TrailsListScreen> {
             case 'Time ↓':
               trails.sort((a, b) => b.time.compareTo(a.time));
               break;
+            case 'Difficulty ↑':
+              trails.sort((a, b) => a.difficulty.compareTo(b.difficulty));
+              break;
+            case 'Difficulty ↓':
+              trails.sort((a, b) => b.difficulty.compareTo(a.difficulty));
+              break;
           }
+
 
           if (trails.isEmpty) {
             return const Center(child: Text('No trails found.'));
