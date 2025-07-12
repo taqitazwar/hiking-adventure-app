@@ -2,6 +2,8 @@
 
 A Flutter application for discovering public hiking trails in Newfoundland & Labrador and logging your completed hikes with notes, ratings, and photos.
 
+📺 **Watch Demo**: [YouTube Video](https://www.youtube.com/watch?v=gmUKBqCLwPQ)
+
 ## Features
 
 - **User Authentication**  
