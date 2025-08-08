@@ -41,7 +41,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA2S_LGebIbEhP2gaXzXmrZ88Mo9mYyj5U',
+    apiKey: 'a',
     appId: '1:711383704726:web:553a72b89ec4c915084eb7',
     messagingSenderId: '711383704726',
     projectId: 'hikingapp-bd43d',
@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDPnsn4Yh6fo2K2a28fdaaBLm4TMVbv5qk',
+    apiKey: 'a',
     appId: '1:711383704726:android:474bd0cb7f700141084eb7',
     messagingSenderId: '711383704726',
     projectId: 'hikingapp-bd43d',
@@ -59,7 +59,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBeHEuqMGV53tAJwxcnjlesQQcTC6aVcWk',
+    apiKey: 'a',
     appId: '1:711383704726:ios:f445a511c619f75a084eb7',
     messagingSenderId: '711383704726',
     projectId: 'hikingapp-bd43d',
@@ -68,7 +68,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBeHEuqMGV53tAJwxcnjlesQQcTC6aVcWk',
+    apiKey: 'a',
     appId: '1:711383704726:ios:f445a511c619f75a084eb7',
     messagingSenderId: '711383704726',
     projectId: 'hikingapp-bd43d',
